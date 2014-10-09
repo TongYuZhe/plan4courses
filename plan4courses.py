@@ -4,7 +4,8 @@
 
 from Tkinter import *
 
-def add_courses():
+def add_courses(course_name_ent, course_start_time_ent,
+                course_end_time_ent, course_time_cost_ent):
     pass
     
 

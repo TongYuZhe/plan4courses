@@ -4,6 +4,14 @@
 
 from Tkinter import *
 
+class Course:
+    def __init__(self, course_name, course_start_time,
+                 course_end_time, course_time_cost):
+        self.name = course_name
+        self.start_time = course_start_time
+        self.end_time = course_end_time
+        self.time_cost = course_time_cost
+
 def add_courses(course_name_ent, course_start_time_ent,
                 course_end_time_ent, course_time_cost_ent):
     pass

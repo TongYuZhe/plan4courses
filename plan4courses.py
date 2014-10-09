@@ -3,8 +3,10 @@
 # E-Mail: xiaoyangpublic@163.com
 
 from Tkinter import *
+
 def add_courses():
     pass
+    
 
 def create_add_courses_interface():
     add_courses_dialog = Toplevel()
@@ -38,7 +40,11 @@ def create_add_courses_interface():
     course_time_cost_label.pack(side=LEFT, fill=BOTH, expand=YES)
     course_time_cost_entry.pack(side=RIGHT, fill=BOTH, expand=YES)
 
-    add_course_btn = Button(add_courses_dialog, text='Add', command=add_courses)
+    add_course_btn = Button(add_courses_dialog, text='Add',
+                            command=(lambda: add_courses(course_name_entry,
+                                                         course_start_time_entry,
+                                                         course_end_time_entry,
+                                                         course_time_cost_entry)))
     add_course_btn.pack(side=BOTTOM, expand=YES, fill=BOTH)
 
 if __name__ == '__main__':

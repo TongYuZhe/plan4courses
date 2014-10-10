@@ -33,7 +33,6 @@ def make_course_info_form():
         label.pack(side=LEFT, fill=BOTH, expand=YES)
         entry.pack(side=RIGHT, fill=BOTH, expand=YES)
     return add_courses_dialog, course_info_ent_list
-        
 
 def create_add_courses_interface(courses):
     add_courses_dialog, course_info_ent_list = make_course_info_form()
@@ -44,6 +43,7 @@ def create_add_courses_interface(courses):
 def create_main_interface(courses):
     root = Tk()
     root.title('Plan4Courses')
+    root.minsize(width=250, height=150)
     add_courses_btn = Button(root, text='Add Courses', command=(lambda:create_add_courses_interface(courses)))
     del_courses_btn = Button(root, text='Delete Courses')
     gen_courses_cost_btn = Button(root, text='Generate Courses Cost')

@@ -13,11 +13,15 @@ class Course:
         self.time_cost = course_time_cost
 
 def add_courses(course_name_ent, course_start_time_ent,
-                course_end_time_ent, course_time_cost_ent):
-    pass
+                course_end_time_ent, course_time_cost_ent,
+                courses):
+    course = Course(course_name_ent, course_start_time_ent,
+                    course_end_time_ent, course_time_cost_ent)
+    courses.append(course)
+    print courses
     
 
-def create_add_courses_interface():
+def create_add_courses_interface(courses):
     add_courses_dialog = Toplevel()
     add_courses_dialog.title('Add Courses Information')
 
@@ -53,16 +57,24 @@ def create_add_courses_interface():
                             command=(lambda: add_courses(course_name_entry,
                                                          course_start_time_entry,
                                                          course_end_time_entry,
-                                                         course_time_cost_entry)))
+                                                         course_time_cost_entry,
+                                                         courses)))
     add_course_btn.pack(side=BOTTOM, expand=YES, fill=BOTH)
 
-if __name__ == '__main__':
+def create_main_interface(courses):
     root = Tk()
     root.title('Plan4Courses')
-    add_courses_btn = Button(root, text='Add Courses', command=create_add_courses_interface)
+    add_courses_btn = Button(root, text='Add Courses', command=(lambda:create_add_courses_interface(courses)))
     del_courses_btn = Button(root, text='Delete Courses')
     gen_courses_cost_btn = Button(root, text='Generate Courses Cost')
     add_courses_btn.pack(fill=BOTH, expand=YES)
     del_courses_btn.pack(fill=BOTH, expand=YES)
     gen_courses_cost_btn.pack(fill=BOTH, expand=YES)
     root.mainloop()
+
+if __name__ == '__main__':
+    # Load configuration
+    courses = []
+
+    create_main_interface(courses)
+    

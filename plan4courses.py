@@ -19,6 +19,13 @@ def add_courses(course_info_list,courses):
     courses.append(course)
     print courses[0].name
 
+def onPress(states, i):
+    states[i] = True
+
+def del_courses(states, courses):
+    for i, state in enumerate(states):
+        if state: del courses[i]
+
 def make_course_info_form():
     add_courses_dialog = Toplevel()
     add_courses_dialog.title('Add Courses')
@@ -40,12 +47,25 @@ def create_add_courses_interface(courses):
                             command=(lambda: add_courses(course_info_ent_list, courses)))
     add_course_btn.pack(side=BOTTOM, expand=YES, fill=BOTH)
 
+def create_del_courses_interface(courses):
+    del_courses_dialog = Toplevel()
+    states = [False]*len(courses)
+    for course in courses:
+        var = IntVar()
+        row = Frame(del_courses_dialog)
+        chkbtn = Checkbutton(row, text = course.name, variable = var,
+                             command=(lambda i=courses.index(course): onPress(states, i)))
+        row.pack(side=TOP,fill=BOTH,expand=YES)
+        chkbtn.pack(side=LEFT)
+    delbtn = Button(del_courses_dialog, text="Delete", command=(lambda: del_courses(states, courses)))
+    delbtn.pack(expand=YES, fill=BOTH)
+
 def create_main_interface(courses):
     root = Tk()
     root.title('Plan4Courses')
     root.minsize(width=250, height=150)
     add_courses_btn = Button(root, text='Add Courses', command=(lambda:create_add_courses_interface(courses)))
-    del_courses_btn = Button(root, text='Delete Courses')
+    del_courses_btn = Button(root, text='Delete Courses', command=(lambda:create_del_courses_interface(courses)))
     gen_courses_cost_btn = Button(root, text='Generate Courses Cost')
     add_courses_btn.pack(fill=BOTH, expand=YES)
     del_courses_btn.pack(fill=BOTH, expand=YES)

@@ -3,6 +3,7 @@
 # E-Mail: xiaoyangpublic@163.com
 
 from Tkinter import *
+import pickle
 
 class Course:
     def __init__(self, course_name, course_start_time,
@@ -17,7 +18,6 @@ def add_courses(course_info_list,courses):
     course = Course(course_name.get(), start_time.get(),
                     end_time.get(), time_cost.get())
     courses.append(course)
-    print courses[0].name
 
 def onPress(states, i):
     states[i] = True
@@ -73,8 +73,19 @@ def create_main_interface(courses):
     root.mainloop()
 
 if __name__ == '__main__':
-    # Load configuration
-    courses = []
-
+    # Load courses information
+    courses_info_file = open('courses_info.txt', 'r')
+    try:
+        courses = pickle.load(courses_info_file)
+    except EOFError:
+        courses = []
+    except:
+        print('Unexpected Error!')
+        exit(0)
+        
     create_main_interface(courses)
+
+    # Store courses information into local file
+    pickle.dump(courses, open('courses_info.txt', 'w'))
+    courses_info_file.close()
     

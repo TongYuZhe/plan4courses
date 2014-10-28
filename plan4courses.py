@@ -59,14 +59,39 @@ def create_del_courses_interface(courses):
         chkbtn.pack(side=LEFT)
     delbtn = Button(del_courses_dialog, text="Delete", command=(lambda: del_courses(states, courses)))
     delbtn.pack(expand=YES, fill=BOTH)
+    
+def get_height(courses):
+    height = sum([course.time_cost for course in courses])
+    return height*10+100
 
+def get_width(courses):
+    if courses:
+        time_list = [map(int, course.start_time.split('-')) for course in courses]
+        for i in range(3):
+            sorted(time_list, key=lambda e:e[i])
+        year = time_list[-1][0] - time_list[0][0]
+        month = time_list[-1][1] - time_list[0][1]
+        day = time_list[-1][2] - time_list[0][2]
+        width = (year*365+month*30+day)*10+100
+        return width
+    else:
+        return 100
+
+def draw_courses_schedule(courses):
+    courses_schedule_graph = Toplevel()
+    width = get_width(courses)
+    height = get_height(courses)
+    canvas = Canvas(courses_schedule_graph, width=width, height=height, bg='white')
+    canvas.create_polygon(0,0, 100,0, 100, 100, 0, 100, fill='red')
+    canvas.pack()
+    
 def create_main_interface(courses):
     root = Tk()
     root.title('Plan4Courses')
     root.minsize(width=250, height=150)
     add_courses_btn = Button(root, text='Add Courses', command=(lambda:create_add_courses_interface(courses)))
     del_courses_btn = Button(root, text='Delete Courses', command=(lambda:create_del_courses_interface(courses)))
-    gen_courses_cost_btn = Button(root, text='Generate Courses Cost')
+    gen_courses_cost_btn = Button(root, text='Generate Courses Cost', command=(lambda:draw_courses_schedule(courses)))
     add_courses_btn.pack(fill=BOTH, expand=YES)
     del_courses_btn.pack(fill=BOTH, expand=YES)
     gen_courses_cost_btn.pack(fill=BOTH, expand=YES)

@@ -1,9 +1,13 @@
 # Main Interface of Plan4Courses
 # Author: Dawei Xia
-# E-Mail: xiaoyangpublic@163.com
+# E-Mail: xiadw_public@163.com
 
 from Tkinter import *
-import pickle
+import pickle, datetime
+
+def get_date(str_date):
+    year, month, day = map(int, str_date.split('-'))
+    return datetime.date(year, month, day)
 
 class Course:
     def __init__(self, course_name, course_start_time,
@@ -14,10 +18,15 @@ class Course:
         self.time_cost = course_time_cost
 
 def add_courses(course_info_list,courses):
+    # Bug 1: After we add course information into courses list,
+    #        we should clear all course information entries' information
+    # Bug 2: What if user input illegal information, such as text in
+    #        date entry?
     course_name, start_time, end_time, time_cost = course_info_list
-    course = Course(course_name.get(), start_time.get(),
-                    end_time.get(), time_cost.get())
+    course = Course(course_name.get(), get_date(start_time.get()),
+                    get_date(end_time.get()), int(time_cost.get()))
     courses.append(course)
+    print courses[0]
 
 def onPress(states, i):
     states[i] = True
@@ -102,11 +111,11 @@ def create_main_interface(courses):
     root.mainloop()
 
 if __name__ == '__main__':
-    # Load courses information
-    courses_info_file = open('courses_info.txt', 'r')
+    # Load courses information    
     try:
-        courses = pickle.load(courses_info_file)
-    except EOFError:
+        courses = pickle.load(open('courses_info.txt', 'r'))
+    except EOFError, IOError:
+        print e
         courses = []
     except:
         print('Unexpected Error!')
@@ -115,6 +124,7 @@ if __name__ == '__main__':
     create_main_interface(courses)
 
     # Store courses information into local file
-    pickle.dump(courses, open('courses_info.txt', 'w'))
+    courses_info_file = open('courses_info.txt', 'w')
+    pickle.dump(courses, courses_info_file)
     courses_info_file.close()
     

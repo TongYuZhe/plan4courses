@@ -61,7 +61,7 @@ def create_del_courses_interface(courses):
     delbtn.pack(expand=YES, fill=BOTH)
     
 def get_height(courses):
-    height = sum([course.time_cost for course in courses])
+    height = sum([int(course.time_cost) for course in courses])
     return height*10+100
 
 def get_width(courses):
@@ -77,12 +77,16 @@ def get_width(courses):
     else:
         return 100
 
+def get_periods(courses):
+    pass
+
 def draw_courses_schedule(courses):
     courses_schedule_graph = Toplevel()
     width = get_width(courses)
     height = get_height(courses)
     canvas = Canvas(courses_schedule_graph, width=width, height=height, bg='white')
-    canvas.create_polygon(0,0, 100,0, 100, 100, 0, 100, fill='red')
+    periods = get_periods(courses)
+    # Draw periods
     canvas.pack()
     
 def create_main_interface(courses):

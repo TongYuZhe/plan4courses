@@ -26,7 +26,6 @@ def add_courses(course_info_list,courses):
     course = Course(course_name.get(), get_date(start_time.get()),
                     get_date(end_time.get()), int(time_cost.get()))
     courses.append(course)
-    print courses[0]
 
 def onPress(states, i):
     states[i] = True
@@ -75,14 +74,12 @@ def get_height(courses):
 
 def get_width(courses):
     if courses:
-        time_list = [map(int, course.start_time.split('-')) for course in courses]
-        for i in range(3):
-            sorted(time_list, key=lambda e:e[i])
-        year = time_list[-1][0] - time_list[0][0]
-        month = time_list[-1][1] - time_list[0][1]
-        day = time_list[-1][2] - time_list[0][2]
-        width = (year*365+month*30+day)*10+100
-        return width
+        time_list = []
+        for course in courses:
+            time_list += [course.start_time, course.end_time]
+            
+        days = (max(time_list) - min(time_list)).days
+        return days*10 + 100
     else:
         return 100
 

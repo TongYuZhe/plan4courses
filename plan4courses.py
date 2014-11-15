@@ -5,6 +5,8 @@
 from Tkinter import *
 import pickle, datetime
 
+COLORS = ['red', 'orange', 'yellow', 'green', 'blue', 'cyan', 'purple']
+
 def get_date(str_date):
     year, month, day = map(int, str_date.split('-'))
     return datetime.date(year, month, day)
@@ -116,6 +118,15 @@ def draw_courses_schedule(courses):
     canvas = Canvas(courses_schedule_graph, width=width, height=height, bg='white')
     periods = get_periods(courses)
     # Draw periods
+    canvas.create_line(50, 20, 50, height-20)
+    canvas.create_line(50, 20, width-20, 20)
+    for i, period in enumerate(periods):
+        if i == 0: start_x = 51
+        canvas.create_polygon(start_x, 21,
+                              start_x+(period[0][1]-period[0][0]).days*10, 21,
+                              start_x+(period[0][1]-period[0][0]).days*10, 21+period[1]*10,
+                              start_x, 21+period[1]*10, fill = COLORS[i%len(COLORS)])
+        start_x += (period[0][1]-period[0][0]).days*10
     canvas.pack()
     
 def create_main_interface(courses):

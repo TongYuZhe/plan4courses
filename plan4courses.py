@@ -77,14 +77,37 @@ def get_width(courses):
         time_list = []
         for course in courses:
             time_list += [course.start_time, course.end_time]
-            
         days = (max(time_list) - min(time_list)).days
         return days*10 + 100
     else:
         return 100
 
+def get_time_cost(courses, time):
+    cost = 0
+    for course in courses:
+        if course.start_time == time:
+            cost += course.time_cost
+        elif course.end_time == time:
+            cost -= course.time_cost
+    return cost
+
 def get_periods(courses):
-    pass
+    times = set()
+    for course in courses:
+        times.add(course.start_time)
+        times.add(course.end_time)
+    times_seq = sorted(list(times))
+    cost, period, periods = 0, [], []
+    for time in times_seq:
+        if not period:
+            period.append(time)
+            cost += get_time_cost(courses, time)
+        else:
+            period.append(time)
+            periods.append((period, cost))
+            period = period[1:]
+            cost += get_time_cost(courses, time)
+    return periods            
 
 def draw_courses_schedule(courses):
     courses_schedule_graph = Toplevel()
